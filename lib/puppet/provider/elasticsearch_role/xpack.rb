@@ -1,4 +1,4 @@
-require 'puppet/provider/elastic_yaml'
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet/provider/elastic_yaml')
 
 Puppet::Type.type(:elasticsearch_role).provide(
   :xpack,

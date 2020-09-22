@@ -1,6 +1,6 @@
 # rubocop:disable Style/FileName
 # rubocop:enable Style/FileName
-require 'puppet/provider/elastic_rest'
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet/provider/elastic_rest')
 
 Puppet::Type.type(:elasticsearch_license).provide(
   :xpack,
