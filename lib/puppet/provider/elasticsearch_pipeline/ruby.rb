@@ -1,4 +1,4 @@
-require 'puppet/provider/elastic_rest'
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet/provider/elastic_rest')
 
 Puppet::Type.type(:elasticsearch_pipeline).provide(
   :ruby,

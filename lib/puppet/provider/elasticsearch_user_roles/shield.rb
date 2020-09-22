@@ -1,4 +1,4 @@
-require 'puppet/provider/elastic_user_roles'
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet/provider/elastic_user_roles')
 
 Puppet::Type.type(:elasticsearch_user_roles).provide(
   :shield,
