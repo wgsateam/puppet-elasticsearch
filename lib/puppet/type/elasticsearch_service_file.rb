@@ -27,7 +27,7 @@ Puppet::Type.newtype(:elasticsearch_service_file) do
       # This should only be present on systemd systems.
       opt_flags.delete('--quiet') unless resource[:name].include?('systemd')
 
-      template = ERB.new(should, 0, '-')
+      template = ERB.new(should, trim_mode: '-')
       is == template.result(binding)
     rescue ElasticsearchPackageNotFoundError
       # This behavior is extremely confusing because of the fact that while

@@ -1,4 +1,4 @@
-require 'puppet/provider/elastic_yaml'
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet/provider/elastic_yaml')
 
 # Provider to help manage file-based Shield/X-Pack user/role configuration
 # files.
