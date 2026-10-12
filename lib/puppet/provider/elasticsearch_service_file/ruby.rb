@@ -78,7 +78,7 @@ Puppet::Type.type(:elasticsearch_service_file).provide(:ruby) do
     # This should only be present on systemd systems.
     opt_flags.delete('--quiet') unless resource[:name].include?('systemd')
 
-    template = ERB.new(resource[:content], 0, '-')
+    template = ERB.new(resource[:content], trim_mode: '-')
     result = template.result(binding)
 
     Puppet::Util::FileType.filetype(:flat).new(resource[:name]).write(result)
