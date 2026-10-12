@@ -285,9 +285,6 @@
 # @param systemd_service_path
 #   Path to the directory in which to install systemd service units.
 #
-# @param templates
-#   Define templates via a hash. This is mainly used with Hiera's auto binding.
-#
 # @param users
 #   Define templates via a hash. This is mainly used with Hiera's auto binding.
 #
@@ -367,7 +364,6 @@ class elasticsearch (
   Elasticsearch::Status                           $status,
   Optional[String]                                $system_key,
   Stdlib::Absolutepath                            $systemd_service_path,
-  Hash                                            $templates,
   Hash                                            $users,
   Boolean                                         $validate_tls,
   Variant[String, Boolean]                        $version,
@@ -431,7 +427,6 @@ class elasticsearch (
   create_resources('elasticsearch::role', $::elasticsearch::roles)
   create_resources('elasticsearch::script', $::elasticsearch::scripts)
   create_resources('elasticsearch::snapshot_repository', $::elasticsearch::snapshot_repositories)
-  create_resources('elasticsearch::template', $::elasticsearch::templates)
   create_resources('elasticsearch::user', $::elasticsearch::users)
 
   if ($manage_repo == true) {
@@ -488,8 +483,6 @@ class elasticsearch (
     Class['elasticsearch::config']
     -> Elasticsearch::Role <| |>
     Class['elasticsearch::config']
-    -> Elasticsearch::Template <| |>
-    Class['elasticsearch::config']
     -> Elasticsearch::Pipeline <| |>
     Class['elasticsearch::config']
     -> Elasticsearch::Index <| |>
@@ -510,8 +503,6 @@ class elasticsearch (
     Elasticsearch::User <| |>
     -> Class['elasticsearch::config']
     Elasticsearch::Role <| |>
-    -> Class['elasticsearch::config']
-    Elasticsearch::Template <| |>
     -> Class['elasticsearch::config']
     Elasticsearch::Pipeline <| |>
     -> Class['elasticsearch::config']
@@ -545,10 +536,6 @@ class elasticsearch (
 
   # Ensure users and roles are managed before calling out to REST resources
   Elasticsearch::Role <| |>
-  -> Elasticsearch::Template <| |>
-  Elasticsearch::User <| |>
-  -> Elasticsearch::Template <| |>
-  Elasticsearch::Role <| |>
   -> Elasticsearch::Pipeline <| |>
   Elasticsearch::User <| |>
   -> Elasticsearch::Pipeline <| |>
@@ -574,16 +561,12 @@ class elasticsearch (
 
   # Ensure instances are started before managing REST resources
   Elasticsearch::Instance <| ensure == 'present' |>
-  -> Elasticsearch::Template <| |>
-  Elasticsearch::Instance <| ensure == 'present' |>
   -> Elasticsearch::Pipeline <| |>
   Elasticsearch::Instance <| ensure == 'present' |>
   -> Elasticsearch::Index <| |>
   Elasticsearch::Instance <| ensure == 'present' |>
   -> Elasticsearch::Snapshot_repository <| |>
   # Ensure instances are stopped after managing REST resources
-  Elasticsearch::Template <| |>
-  -> Elasticsearch::Instance <| ensure == 'absent' |>
   Elasticsearch::Pipeline <| |>
   -> Elasticsearch::Instance <| ensure == 'absent' |>
   Elasticsearch::Index <| |>

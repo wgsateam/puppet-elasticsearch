@@ -127,7 +127,7 @@ class { 'elasticsearch':
 
 #### API Settings
 
-Some resources, such as `elasticsearch::template`, require communicating with the Elasticsearch REST API.
+Some resources, such as `elasticsearch::pipeline`, require communicating with the Elasticsearch REST API.
 By default, these API settings are set to:
 
 ```puppet
@@ -280,67 +280,6 @@ elasticsearch::script { 'myscripts_dir':
   ensure  => 'directory,
   source  => 'puppet:///path/to/myscripts_dir'
   recurse => 'remote',
-}
-```
-
-### Templates
-
-By default templates use the top-level `elasticsearch::api_*` settings to communicate with Elasticsearch.
-The following is an example of how to override these settings:
-
-```puppet
-elasticsearch::template { 'templatename':
-  api_protocol            => 'https',
-  api_host                => $::ipaddress,
-  api_port                => 9201,
-  api_timeout             => 60,
-  api_basic_auth_username => 'admin',
-  api_basic_auth_password => 'adminpassword',
-  api_ca_file             => '/etc/ssl/certs',
-  api_ca_path             => '/etc/pki/certs',
-  validate_tls            => false,
-  source                  => 'puppet:///path/to/template.json',
-}
-```
-
-#### Add a new template using a file
-
-This will install and/or replace the template in Elasticsearch:
-
-```puppet
-elasticsearch::template { 'templatename':
-  source => 'puppet:///path/to/template.json',
-}
-```
-
-#### Add a new template using content
-
-This will install and/or replace the template in Elasticsearch:
-
-```puppet
-elasticsearch::template { 'templatename':
-  content => {
-    'template' => "*",
-    'settings' => {
-      'number_of_replicas' => 0
-    }
-  }
-}
-```
-
-Plain JSON strings are also supported.
-
-```puppet
-elasticsearch::template { 'templatename':
-  content => '{"template":"*","settings":{"number_of_replicas":0}}'
-}
-```
-
-#### Delete a template
-
-```puppet
-elasticsearch::template { 'templatename':
-  ensure => 'absent'
 }
 ```
 

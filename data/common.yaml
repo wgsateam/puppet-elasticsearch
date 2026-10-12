@@ -61,7 +61,6 @@ elasticsearch::snapshot_repositories: {}
 elasticsearch::status: enabled
 elasticsearch::system_key: ~
 elasticsearch::systemd_service_path: /lib/systemd/system
-elasticsearch::templates: {}
 elasticsearch::users: {}
 elasticsearch::validate_tls: true
 elasticsearch::version: false
